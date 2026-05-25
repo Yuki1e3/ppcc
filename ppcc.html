@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PPCC – Pao-pao Community Church</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9942A;--gold-light:#F0C868;--gold-dark:#8B6318;
+  --cream:#FDF8F0;--cream2:#F5EDD8;
+  --ink:#1A1208;--ink2:#3D2E10;--ink3:#6B5530;
+  --white:#FFFFFF;
+  --green:#2D6A4F;--green-light:#52B788;
+  --red:#C0392B;
+  --ff-head:'Playfair Display',serif;
+  --ff-body:'DM Sans',sans-serif;
+  --radius:12px;--radius-sm:8px;
+  --shadow:0 4px 24px rgba(26,18,8,.12);
+  --shadow-lg:0 12px 48px rgba(26,18,8,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-body);background:var(--cream);color:var(--ink);line-height:1.6}
+
+/* ── UTILS ── */
+.hidden{display:none!important}
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(253,248,240,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,148,42,.2)}
+.nav-inner{max-width:1200px;margin:auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-logo{width:48px;height:48px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--ff-head);font-size:1rem;font-weight:700;color:#fff;flex-shrink:0}
+.nav-title{font-family:var(--ff-head);font-size:1.1rem;font-weight:600;color:var(--ink);line-height:1.2}
+.nav-title span{display:block;font-size:.7rem;font-weight:400;font-family:var(--ff-body);color:var(--ink3);font-style:italic}
+.nav-links{display:flex;align-items:center;gap:.25rem}
+.nav-links a{font-size:.9rem;font-weight:500;color:var(--ink2);text-decoration:none;padding:.5rem .9rem;border-radius:var(--radius-sm);transition:.2s}
+.nav-links a:hover{background:var(--cream2);color:var(--gold-dark)}
+.nav-links a.active{color:var(--gold-dark);font-weight:600}
+.nav-btn{background:var(--gold);color:#fff;padding:.5rem 1.2rem;border-radius:999px;font-size:.85rem;font-weight:600;border:none;cursor:pointer;font-family:var(--ff-body);transition:.2s}
+.nav-btn:hover{background:var(--gold-dark)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+.hamburger span{display:block;width:24px;height:2px;background:var(--ink2);margin:5px 0;transition:.3s}
+.mob-menu{display:none;position:fixed;top:72px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--cream2);padding:1rem 2rem;z-index:998;flex-direction:column;gap:.5rem}
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:1rem;font-weight:500;color:var(--ink2);text-decoration:none;padding:.75rem 0;border-bottom:1px solid var(--cream2)}
+
+/* ── HERO CAROUSEL ── */
+#hero{position:relative;height:100vh;min-height:600px;overflow:hidden;margin-top:72px}
+.carousel-track{display:flex;height:100%;transition:transform .7s cubic-bezier(.77,0,.18,1)}
+.carousel-slide{min-width:100%;height:100%;position:relative;display:flex;align-items:flex-end;padding:4rem 5vw 5rem}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,18,8,.85) 0%,rgba(26,18,8,.3) 50%,transparent 100%)}
+.slide-content{position:relative;z-index:2;max-width:700px}
+.slide-tag{display:inline-block;background:var(--gold);color:#fff;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem}
+.slide-content h1{font-family:var(--ff-head);font-size:clamp(2rem,5vw,3.8rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:1rem}
+.slide-content p{font-size:1.05rem;color:rgba(255,255,255,.85);margin-bottom:1.75rem;max-width:560px}
+.slide-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;padding:.8rem 1.8rem;border-radius:999px;font-weight:600;text-decoration:none;font-size:.95rem;transition:.2s}
+.slide-cta:hover{background:var(--gold-dark)}
+.carousel-prev,.carousel-next{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;width:52px;height:52px;border-radius:50%;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:.2s}
+.carousel-prev{left:2rem}
+.carousel-next{right:2rem}
+.carousel-prev:hover,.carousel-next:hover{background:var(--gold)}
+.carousel-dots{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.6rem;z-index:10}
+.carousel-dot{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.4);cursor:pointer;transition:.3s;border:none}
+.carousel-dot.active{background:var(--gold);width:24px}
+
+/* ── SECTIONS COMMON ── */
+section{padding:5rem 5vw}
+.section-label{font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.section-title{font-family:var(--ff-head);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:1rem}
+.section-sub{color:var(--ink3);font-size:1rem;max-width:580px;margin-bottom:3rem}
+.section-inner{max-width:1200px;margin:auto}
+
+/* ── SUNDAY SERVICE ── */
+#sunday{background:var(--white)}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.service-card{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);border-radius:20px;padding:2.5rem;color:#fff;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(201,148,42,.15)}
+.service-card::after{content:'';position:absolute;bottom:-30px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(201,148,42,.1)}
+.service-date-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;padding:.4rem 1rem;border-radius:999px;font-size:.85rem;font-weight:600;margin-bottom:1.25rem;position:relative;z-index:1}
+.service-card h3{font-family:var(--ff-head);font-size:1.7rem;font-weight:700;margin-bottom:.75rem;position:relative;z-index:1}
+.service-card p{color:rgba(255,255,255,.8);font-size:.95rem;margin-bottom:.5rem;position:relative;z-index:1;display:flex;align-items:center;gap:.5rem}
+.service-details{display:flex;flex-direction:column;gap:1.25rem}
+.detail-item{display:flex;align-items:flex-start;gap:1rem;padding:1.25rem;background:var(--cream);border-radius:var(--radius);border-left:3px solid var(--gold)}
+.detail-icon{width:40px;height:40px;background:var(--gold);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.detail-info h4{font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.detail-info p{font-size:.88rem;color:var(--ink3)}
+.announcement-banner{margin-top:1.5rem;padding:1rem 1.5rem;background:var(--cream2);border-radius:var(--radius);border:1px solid rgba(201,148,42,.3)}
+.announcement-banner h4{font-family:var(--ff-head);font-size:1rem;color:var(--gold-dark);margin-bottom:.3rem}
+.announcement-banner p{font-size:.88rem;color:var(--ink2)}
+
+/* ── EVENTS ── */
+#events{background:var(--cream)}
+.events-layout{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start}
+.calendar-widget{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.cal-header{background:var(--ink);color:#fff;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.cal-header h3{font-family:var(--ff-head);font-size:1.1rem;font-weight:600}
+.cal-nav-btn{background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;padding:.25rem .5rem;opacity:.7;transition:.2s}
+.cal-nav-btn:hover{opacity:1}
+.cal-grid{padding:1rem}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:.5rem}
+.cal-weekdays span{font-size:.75rem;font-weight:600;color:var(--ink3);padding:.3rem 0}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.85rem;border-radius:var(--radius-sm);cursor:pointer;transition:.15s;position:relative}
+.cal-day:hover{background:var(--cream2)}
+.cal-day.today{background:var(--gold);color:#fff;font-weight:700}
+.cal-day.has-event::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--green)}
+.cal-day.today.has-event::after{background:#fff}
+.cal-day.other-month{color:var(--cream2)}
+.cal-day.selected{outline:2px solid var(--gold);outline-offset:1px}
+.events-list{display:flex;flex-direction:column;gap:1rem}
+.event-card{background:var(--white);border-radius:var(--radius);padding:1.25rem;display:flex;gap:1rem;align-items:flex-start;box-shadow:0 2px 12px rgba(26,18,8,.06);transition:.2s;cursor:pointer}
+.event-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.event-date-block{background:var(--ink);color:#fff;border-radius:var(--radius-sm);width:52px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.event-date-block .eday{font-size:1.4rem;font-weight:700;line-height:1;font-family:var(--ff-head)}
+.event-date-block .emon{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;opacity:.8}
+.event-info h4{font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.event-info .event-meta{font-size:.82rem;color:var(--ink3);display:flex;align-items:center;gap:.75rem}
+.event-type-badge{display:inline-block;font-size:.72rem;font-weight:600;padding:.2rem .65rem;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.badge-worship{background:#FEF9EC;color:var(--gold-dark)}
+.badge-community{background:#ECF9F0;color:var(--green)}
+.badge-outreach{background:#ECF1FE;color:#4A4EBA}
+.no-events{text-align:center;padding:2rem;color:var(--ink3);font-style:italic;font-size:.9rem}
+
+/* ── GALLERY ── */
+#gallery{background:var(--white)}
+.gallery-tabs{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.gtab{background:none;border:1.5px solid var(--cream2);color:var(--ink3);padding:.5rem 1.25rem;border-radius:999px;font-size:.88rem;font-weight:500;cursor:pointer;font-family:var(--ff-body);transition:.2s}
+.gtab.active,.gtab:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+.gallery-masonry{columns:3;gap:1rem;column-gap:1rem}
+@media(max-width:768px){.gallery-masonry{columns:2}}
+@media(max-width:480px){.gallery-masonry{columns:1}}
+.gallery-item{break-inside:avoid;margin-bottom:1rem;border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;group}
+.gallery-item img,.gallery-item .gallery-placeholder{width:100%;display:block;border-radius:var(--radius)}
+.gallery-placeholder{aspect-ratio:4/3;background:linear-gradient(135deg,var(--cream2),var(--cream));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;font-size:.8rem;color:var(--ink3)}
+.gallery-placeholder .gp-icon{font-size:2rem}
+.gallery-overlay{position:absolute;inset:0;background:rgba(26,18,8,.6);opacity:0;transition:.3s;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:#fff;border-radius:var(--radius)}
+.gallery-item:hover .gallery-overlay{opacity:1}
+
+/* ── ABOUT ── */
+#about{background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-img{border-radius:20px;overflow:hidden;aspect-ratio:4/5;background:linear-gradient(135deg,var(--ink),var(--ink2));display:flex;align-items:center;justify-content:center;font-size:4rem}
+.about-values{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+.value-card{background:var(--white);border-radius:var(--radius);padding:1.25rem;border-top:3px solid var(--gold)}
+.value-card .vi{font-size:1.5rem;margin-bottom:.5rem}
+.value-card h4{font-weight:600;font-size:.95rem;color:var(--ink);margin-bottom:.25rem}
+.value-card p{font-size:.82rem;color:var(--ink3)}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(255,255,255,.7);padding:4rem 5vw 2rem}
+.footer-inner{max-width:1200px;margin:auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand p{margin-top:.75rem;font-size:.88rem;max-width:300px;line-height:1.7}
+.footer-col h4{font-family:var(--ff-head);font-size:1rem;color:#fff;margin-bottom:1rem}
+.footer-col a{display:block;font-size:.88rem;color:rgba(255,255,255,.6);text-decoration:none;margin-bottom:.5rem;transition:.2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;font-size:.8rem}
+
+/* ── LIGHTBOX ── */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;align-items:center;justify-content:center;padding:2rem}
+.lightbox.hidden{display:none}
+.lightbox-content{max-width:90vw;max-height:85vh;border-radius:var(--radius)}
+.lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.lightbox-close:hover{background:var(--gold)}
+
+/* ════════════════════════════════
+   ADMIN PANEL
+════════════════════════════════ */
+#admin-page{min-height:100vh;background:#f0ede8}
+.admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink)}
+.login-card{background:#fff;border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:380px;box-shadow:var(--shadow-lg)}
+.login-logo{text-align:center;margin-bottom:1.5rem}
+.login-logo .ll-circle{width:64px;height:64px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--ff-head);font-size:1.3rem;font-weight:700;color:#fff;margin:0 auto .75rem}
+.login-logo h2{font-family:var(--ff-head);font-size:1.4rem;font-weight:700;color:var(--ink)}
+.login-logo p{font-size:.85rem;color:var(--ink3)}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.85rem;font-weight:600;color:var(--ink2);margin-bottom:.4rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.7rem .9rem;border:1.5px solid var(--cream2);border-radius:var(--radius-sm);font-family:var(--ff-body);font-size:.9rem;color:var(--ink);background:#fff;transition:.2s;outline:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group textarea{resize:vertical;min-height:80px}
+.btn-primary{width:100%;padding:.8rem;background:var(--gold);border:none;border-radius:var(--radius-sm);color:#fff;font-family:var(--ff-body);font-size:.95rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-primary:hover{background:var(--gold-dark)}
+.btn-sm{padding:.45rem 1rem;font-size:.82rem;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;border:none;font-family:var(--ff-body);transition:.2s;display:inline-flex;align-items:center;gap:.35rem}
+.btn-sm.primary{background:var(--gold);color:#fff}
+.btn-sm.primary:hover{background:var(--gold-dark)}
+.btn-sm.danger{background:#FEF0F0;color:var(--red);border:1px solid rgba(192,57,43,.2)}
+.btn-sm.danger:hover{background:var(--red);color:#fff}
+.btn-sm.secondary{background:var(--cream2);color:var(--ink2)}
+.btn-sm.secondary:hover{background:var(--gold);color:#fff}
+.login-err{background:#FEF0F0;color:var(--red);border-radius:var(--radius-sm);padding:.65rem 1rem;font-size:.85rem;margin-bottom:1rem;display:none}
+
+/* ADMIN LAYOUT */
+.admin-layout{display:flex;min-height:100vh}
+.admin-sidebar{width:240px;background:var(--ink);position:fixed;top:0;bottom:0;left:0;overflow-y:auto;display:flex;flex-direction:column}
+.admin-sidebar-brand{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.admin-sidebar-brand h2{font-family:var(--ff-head);font-size:1rem;font-weight:700;color:#fff;line-height:1.3}
+.admin-sidebar-brand p{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:.15rem}
+.admin-nav{padding:1rem 0;flex:1}
+.admin-nav a{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;font-size:.88rem;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;transition:.2s;cursor:pointer}
+.admin-nav a:hover,.admin-nav a.active{background:rgba(201,148,42,.15);color:var(--gold-light)}
+.admin-nav a .nav-icon{font-size:1.1rem;width:22px;text-align:center}
+.admin-nav .nav-section{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.3);padding:.75rem 1.5rem .3rem;margin-top:.5rem}
+.admin-logout{padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.1)}
+.admin-logout button{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);width:100%;padding:.6rem;border-radius:var(--radius-sm);font-family:var(--ff-body);font-size:.85rem;cursor:pointer;transition:.2s}
+.admin-logout button:hover{background:rgba(192,57,43,.2);color:#fff;border-color:rgba(192,57,43,.4)}
+
+.admin-main{margin-left:240px;flex:1;min-height:100vh}
+.admin-topbar{background:#fff;border-bottom:1px solid var(--cream2);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.admin-topbar h1{font-family:var(--ff-head);font-size:1.3rem;font-weight:700;color:var(--ink)}
+.admin-content{padding:2rem;max-width:1000px}
+
+/* ADMIN SECTIONS */
+.admin-section{display:none}
+.admin-section.active{display:block}
+.admin-card{background:#fff;border-radius:var(--radius);padding:1.75rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(26,18,8,.06)}
+.admin-card h3{font-family:var(--ff-head);font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--cream2)}
+.table-wrap{overflow-x:auto}
+table.admin-table{width:100%;border-collapse:collapse;font-size:.88rem}
+table.admin-table th{text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);padding:.6rem 1rem;border-bottom:2px solid var(--cream2)}
+table.admin-table td{padding:.75rem 1rem;border-bottom:1px solid var(--cream);vertical-align:middle}
+table.admin-table tr:last-child td{border-bottom:none}
+table.admin-table tr:hover td{background:var(--cream)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-actions{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--cream2)}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--green);color:#fff;padding:.9rem 1.5rem;border-radius:var(--radius-sm);font-size:.9rem;font-weight:500;box-shadow:var(--shadow-lg);z-index:9999;transform:translateY(100px);opacity:0;transition:.4s}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:var(--red)}
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:#fff;border-radius:var(--radius);padding:1.25rem;box-shadow:0 2px 12px rgba(26,18,8,.06);border-top:3px solid var(--gold)}
+.stat-card .sv{font-size:2rem;font-weight:700;font-family:var(--ff-head);color:var(--ink);line-height:1}
+.stat-card .sl{font-size:.8rem;color:var(--ink3);margin-top:.25rem}
+.upload-zone{border:2px dashed var(--cream2);border-radius:var(--radius);padding:2rem;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.upload-zone:hover{border-color:var(--gold);background:var(--cream)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload-zone .uz-icon{font-size:2.5rem;margin-bottom:.5rem}
+.upload-zone p{font-size:.88rem;color:var(--ink3)}
+.gallery-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem;margin-top:1rem}
+.gallery-admin-item{border-radius:var(--radius-sm);overflow:hidden;position:relative;aspect-ratio:1;background:var(--cream2);display:flex;align-items:center;justify-content:center}
+.gallery-admin-item img{width:100%;height:100%;object-fit:cover}
+.gallery-admin-item .del-btn{position:absolute;top:.35rem;right:.35rem;background:var(--red);color:#fff;border:none;border-radius:999px;width:24px;height:24px;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s}
+.gallery-admin-item:hover .del-btn{opacity:1}
+.badge-pill{display:inline-block;font-size:.72rem;font-weight:600;padding:.2rem .7rem;border-radius:999px}
+.status-active{background:#ECF9F0;color:var(--green)}
+.status-inactive{background:#f5f5f5;color:#888}
+.carousel-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:1rem}
+.carousel-preview-item{border-radius:var(--radius-sm);overflow:hidden;position:relative;aspect-ratio:16/9;background:var(--ink);display:flex;align-items:flex-end}
+.carousel-preview-item .cp-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.4)}
+.carousel-preview-item .cp-info{position:relative;z-index:2;padding:.5rem .75rem;background:rgba(0,0,0,.6);width:100%}
+.carousel-preview-item .cp-info p{font-size:.72rem;color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.carousel-preview-item .del-btn{position:absolute;top:.35rem;right:.35rem;background:var(--red);color:#fff;border:none;border-radius:999px;width:24px;height:24px;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .service-grid,.about-grid,.events-layout,.footer-top{grid-template-columns:1fr}
+  .stat-cards{grid-template-columns:1fr 1fr}
+  .admin-sidebar{width:200px}
+  .admin-main{margin-left:200px}
+}
+@media(max-width:700px){
+  .nav-links,.nav-btn{display:none}
+  .hamburger{display:block}
+  .service-grid,.about-grid,.events-layout{grid-template-columns:1fr}
+  .about-values,.form-row{grid-template-columns:1fr}
+  .stat-cards{grid-template-columns:1fr 1fr}
+  .admin-sidebar{display:none}
+  .admin-main{margin-left:0}
+  section{padding:3.5rem 5vw}
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ PUBLIC WEBSITE ══════════ -->
+<div id="public-page" class="page active">
+
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#" onclick="smoothScroll('hero')">
+      <div class="nav-logo">PPCC</div>
+      <div class="nav-title">Pao-pao Community Church<span>Rooted in Faith, Growing in Love</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#" onclick="smoothScroll('sunday');return false">Service</a>
+      <a href="#" onclick="smoothScroll('events');return false">Events</a>
+      <a href="#" onclick="smoothScroll('gallery');return false">Gallery</a>
+      <a href="#" onclick="smoothScroll('about');return false">About</a>
+    </div>
+    <button class="nav-btn" onclick="showAdminLogin()">Admin ↗</button>
+    <button class="hamburger" onclick="toggleMob()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="#" onclick="smoothScroll('sunday');toggleMob()">Sunday Service</a>
+  <a href="#" onclick="smoothScroll('events');toggleMob()">Events</a>
+  <a href="#" onclick="smoothScroll('gallery');toggleMob()">Gallery</a>
+  <a href="#" onclick="smoothScroll('about');toggleMob()">About</a>
+  <a href="#" onclick="showAdminLogin()">Admin Panel</a>
+</div>
+
+<!-- ── HERO CAROUSEL ── -->
+<section id="hero" style="padding:0">
+  <div class="carousel-track" id="carouselTrack"></div>
+  <button class="carousel-prev" onclick="carouselMove(-1)">‹</button>
+  <button class="carousel-next" onclick="carouselMove(1)">›</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+</section>
+
+<!-- ── SUNDAY SERVICE ── -->
+<section id="sunday">
+  <div class="section-inner">
+    <p class="section-label">Join Us This Week</p>
+    <h2 class="section-title">Sunday Service</h2>
+    <p class="section-sub">Come and worship with us every Sunday. All are welcome to join our community in prayer, praise, and the Word.</p>
+    <div class="service-grid">
+      <div id="serviceCard">
+        <!-- filled by JS -->
+      </div>
+      <div class="service-details">
+        <div class="detail-item">
+          <div class="detail-icon">🕐</div>
+          <div class="detail-info">
+            <h4 id="svcTime">8:00 AM & 10:00 AM</h4>
+            <p>Morning Worship Services</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">📍</div>
+          <div class="detail-info">
+            <h4 id="svcLocation">PPCC Main Sanctuary</h4>
+            <p id="svcAddress">Pao-pao, Masbate, Philippines</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">🎶</div>
+          <div class="detail-info">
+            <h4>Worship & Fellowship</h4>
+            <p>Praise music, Word message & communion time</p>
+          </div>
+        </div>
+        <div class="announcement-banner" id="announcementBanner">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EVENTS ── -->
+<section id="events">
+  <div class="section-inner">
+    <p class="section-label">Mark Your Calendar</p>
+    <h2 class="section-title">Upcoming Events</h2>
+    <p class="section-sub">Stay connected and be part of our church activities, outreach programs, and fellowship gatherings.</p>
+    <div class="events-layout">
+      <div class="calendar-widget">
+        <div class="cal-header">
+          <button class="cal-nav-btn" onclick="calMove(-1)">‹</button>
+          <h3 id="calTitle"></h3>
+          <button class="cal-nav-btn" onclick="calMove(1)">›</button>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-weekdays">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+          <div class="cal-days" id="calDays"></div>
+        </div>
+      </div>
+      <div>
+        <div class="events-list" id="eventsList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section id="gallery">
+  <div class="section-inner">
+    <p class="section-label">Our Community</p>
+    <h2 class="section-title">Happy Moments & Ministry Gallery</h2>
+    <p class="section-sub">Glimpses of God's love in action — worship, fellowship, feeding programs, and more.</p>
+    <div class="gallery-tabs" id="galleryTabs"></div>
+    <div class="gallery-masonry" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img" id="aboutImg">⛪</div>
+      <div>
+        <p class="section-label">Who We Are</p>
+        <h2 class="section-title" style="margin-bottom:.75rem">Rooted in Faith,<br>Growing in Love</h2>
+        <p style="color:var(--ink3);margin-bottom:1.5rem">PPCC – Pao-pao Community Church is a welcoming family of believers committed to worship, discipleship, and serving our community with love and compassion.</p>
+        <p style="color:var(--ink3);margin-bottom:2rem">We believe every person matters. Whether you're a lifelong believer or just beginning your journey, there is a place for you here at PPCC.</p>
+        <div class="about-values">
+          <div class="value-card"><div class="vi">🙏</div><h4>Faith</h4><p>Anchored in God's Word and the power of prayer</p></div>
+          <div class="value-card"><div class="vi">❤️</div><h4>Love</h4><p>Serving our neighbors with compassion and grace</p></div>
+          <div class="value-card"><div class="vi">🌱</div><h4>Growth</h4><p>Disciples growing together in Christ</p></div>
+          <div class="value-card"><div class="vi">🤝</div><h4>Community</h4><p>United as one family in worship and service</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
+          <div style="width:44px;height:44px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--ff-head);font-weight:700;color:#fff">PPCC</div>
+          <h3 style="font-family:var(--ff-head);color:#fff;font-size:1.1rem">Pao-pao Community Church</h3>
+        </div>
+        <p>A community church committed to worship, service, and building God's kingdom together in Pao-pao.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#" onclick="smoothScroll('sunday');return false">Sunday Service</a>
+        <a href="#" onclick="smoothScroll('events');return false">Upcoming Events</a>
+        <a href="#" onclick="smoothScroll('gallery');return false">Gallery</a>
+        <a href="#" onclick="smoothScroll('about');return false">About Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="#">📍 Pao-pao, Masbate, Philippines</a>
+        <a href="#">📞 Ask our church leaders</a>
+        <a href="#">📧 ppcc@church.org</a>
+        <a href="#" style="margin-top:.5rem;color:var(--gold-light)">Facebook Page ↗</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 PPCC – Pao-pao Community Church. All rights reserved.</span>
+      <span>Made with ❤️ for God's glory</span>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox hidden" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img class="lightbox-content" id="lightboxImg" src="" alt="Gallery image"/>
+</div>
+
+</div><!-- /public-page -->
+
+<!-- ══════════ ADMIN PAGE ══════════ -->
+<div id="admin-page" class="page">
+
+  <!-- LOGIN -->
+  <div id="adminLogin" class="admin-login">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="ll-circle">PPCC</div>
+        <h2>Admin Panel</h2>
+        <p>Pao-pao Community Church</p>
+      </div>
+      <div class="login-err" id="loginErr">Incorrect username or password.</div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUser" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn-primary" style="margin-top:.5rem" onclick="doLogin()">Sign In</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.82rem;color:var(--ink3)"><a href="#" onclick="showPublic();return false" style="color:var(--gold)">← Back to Website</a></p>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="adminDashboard" class="hidden admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-brand">
+        <h2>PPCC Admin</h2>
+        <p>Pao-pao Community Church</p>
+      </div>
+      <nav class="admin-nav">
+        <div class="nav-section">Overview</div>
+        <a onclick="showAdminSection('aDashboard')" class="active" id="navDashboard"><span class="nav-icon">📊</span>Dashboard</a>
+        <div class="nav-section">Content</div>
+        <a onclick="showAdminSection('aCarousel')" id="navCarousel"><span class="nav-icon">🖼️</span>Hero Carousel</a>
+        <a onclick="showAdminSection('aService')" id="navService"><span class="nav-icon">⛪</span>Sunday Service</a>
+        <a onclick="showAdminSection('aAnnouncements')" id="navAnnouncements"><span class="nav-icon">📢</span>Announcements</a>
+        <a onclick="showAdminSection('aEvents')" id="navEvents"><span class="nav-icon">📅</span>Events</a>
+        <a onclick="showAdminSection('aGallery')" id="navGallery"><span class="nav-icon">📷</span>Gallery</a>
+      </nav>
+      <div class="admin-logout">
+        <button onclick="adminLogout()">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <h1 id="adminPageTitle">Dashboard</h1>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <span style="font-size:.85rem;color:var(--ink3)">Logged in as <strong>admin</strong></span>
+          <button class="btn-sm primary" onclick="showPublic()">View Website ↗</button>
+        </div>
+      </div>
+      <div class="admin-content">
+
+        <!-- DASHBOARD -->
+        <div class="admin-section active" id="aDashboard">
+          <div class="stat-cards" id="statCards"></div>
+          <div class="admin-card">
+            <h3>Quick Actions</h3>
+            <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+              <button class="btn-sm primary" onclick="showAdminSection('aCarousel')">🖼️ Edit Carousel</button>
+              <button class="btn-sm primary" onclick="showAdminSection('aService')">⛪ Update Service</button>
+              <button class="btn-sm primary" onclick="showAdminSection('aAnnouncements')">📢 New Announcement</button>
+              <button class="btn-sm primary" onclick="showAdminSection('aEvents')">📅 Add Event</button>
+              <button class="btn-sm primary" onclick="showAdminSection('aGallery')">📷 Upload Photos</button>
+            </div>
+          </div>
+          <div class="admin-card">
+            <h3>Recent Activity</h3>
+            <div id="recentActivity" style="font-size:.88rem;color:var(--ink3)"></div>
+          </div>
+        </div>
+
+        <!-- CAROUSEL -->
+        <div class="admin-section" id="aCarousel">
+          <div class="admin-card">
+            <h3>Add Carousel Slide</h3>
+            <div class="form-row">
+              <div class="form-group"><label>Slide Tag / Label</label><input type="text" id="cTag" placeholder="e.g. Welcome · Sunday Service"/></div>
+              <div class="form-group"><label>Background Color / Gradient</label><input type="text" id="cBg" placeholder="#3D2E10 or gradient code"/></div>
+            </div>
+            <div class="form-group"><label>Headline</label><input type="text" id="cTitle" placeholder="You Are Welcome Here"/></div>
+            <div class="form-group"><label>Subtitle Text</label><textarea id="cSub" rows="2" placeholder="Short message for this slide..."></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label>Button Label</label><input type="text" id="cBtn" placeholder="Join Us This Sunday"/></div>
+              <div class="form-group"><label>Background Emoji / Icon</label><input type="text" id="cEmoji" placeholder="⛪"/></div>
+            </div>
+            <div class="form-actions"><button class="btn-sm primary" onclick="addCarouselSlide()">+ Add Slide</button></div>
+          </div>
+          <div class="admin-card">
+            <h3>Current Slides</h3>
+            <div class="carousel-preview" id="carouselAdminPreview"></div>
+          </div>
+        </div>
+
+        <!-- SERVICE -->
+        <div class="admin-section" id="aService">
+          <div class="admin-card">
+            <h3>Sunday Service Details</h3>
+            <div class="form-group"><label>Service Title</label><input type="text" id="svcTitleIn" placeholder="Sunday Morning Worship"/></div>
+            <div class="form-row">
+              <div class="form-group"><label>Service Time(s)</label><input type="text" id="svcTimeIn" placeholder="8:00 AM & 10:00 AM"/></div>
+              <div class="form-group"><label>Date / Schedule Note</label><input type="text" id="svcDateIn" placeholder="Every Sunday"/></div>
+            </div>
+            <div class="form-group"><label>Location Name</label><input type="text" id="svcLocIn" placeholder="PPCC Main Sanctuary"/></div>
+            <div class="form-group"><label>Address</label><input type="text" id="svcAddrIn" placeholder="Pao-pao, Masbate, Philippines"/></div>
+            <div class="form-group"><label>Speaker / Pastor</label><input type="text" id="svcSpeakerIn" placeholder="Pastor Name"/></div>
+            <div class="form-group"><label>Sermon Topic</label><input type="text" id="svcTopicIn" placeholder="This Sunday's message topic..."/></div>
+            <div class="form-actions"><button class="btn-sm primary" onclick="saveService()">💾 Save Service Info</button></div>
+          </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS -->
+        <div class="admin-section" id="aAnnouncements">
+          <div class="admin-card">
+            <h3>Add Announcement</h3>
+            <div class="form-group"><label>Announcement Title</label><input type="text" id="annTitle" placeholder="Important Announcement"/></div>
+            <div class="form-group"><label>Message / Details</label><textarea id="annBody" rows="3" placeholder="Announcement details..."></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label>Date / When</label><input type="date" id="annDate"/></div>
+              <div class="form-group"><label>Priority</label>
+                <select id="annPriority">
+                  <option>Normal</option>
+                  <option>Important</option>
+                  <option>Urgent</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions"><button class="btn-sm primary" onclick="addAnnouncement()">+ Post Announcement</button></div>
+          </div>
+          <div class="admin-card">
+            <h3>Current Announcements</h3>
+            <div class="table-wrap"><table class="admin-table" id="annTable">
+              <thead><tr><th>Title</th><th>Date</th><th>Priority</th><th>Actions</th></tr></thead>
+              <tbody id="annBody2"></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- EVENTS -->
+        <div class="admin-section" id="aEvents">
+          <div class="admin-card">
+            <h3>Add Event</h3>
+            <div class="form-row">
+              <div class="form-group"><label>Event Name</label><input type="text" id="evName" placeholder="Feeding Program"/></div>
+              <div class="form-group"><label>Event Type</label>
+                <select id="evType">
+                  <option value="worship">Worship</option>
+                  <option value="community">Community</option>
+                  <option value="outreach">Outreach</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Date</label><input type="date" id="evDate"/></div>
+              <div class="form-group"><label>Time</label><input type="time" id="evTime"/></div>
+            </div>
+            <div class="form-group"><label>Location</label><input type="text" id="evLoc" placeholder="PPCC Main Hall"/></div>
+            <div class="form-group"><label>Description</label><textarea id="evDesc" rows="2" placeholder="Brief event description..."></textarea></div>
+            <div class="form-actions"><button class="btn-sm primary" onclick="addEvent()">+ Add Event</button></div>
+          </div>
+          <div class="admin-card">
+            <h3>Events List</h3>
+            <div class="table-wrap"><table class="admin-table">
+              <thead><tr><th>Event</th><th>Date</th><th>Time</th><th>Type</th><th>Actions</th></tr></thead>
+              <tbody id="eventsBody"></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- GALLERY -->
+        <div class="admin-section" id="aGallery">
+          <div class="admin-card">
+            <h3>Upload Photos</h3>
+            <div class="form-row" style="margin-bottom:1rem">
+              <div class="form-group"><label>Photo Caption</label><input type="text" id="galCaption" placeholder="Caption for this photo..."/></div>
+              <div class="form-group"><label>Category</label>
+                <select id="galCategory">
+                  <option value="all">All Moments</option>
+                  <option value="worship">Worship</option>
+                  <option value="feeding">Feeding Program</option>
+                  <option value="fellowship">Fellowship</option>
+                  <option value="youth">Youth</option>
+                </select>
+              </div>
+            </div>
+            <div class="upload-zone" id="uploadZone">
+              <input type="file" accept="image/*" multiple onchange="handleUpload(event)"/>
+              <div class="uz-icon">📸</div>
+              <p><strong>Click to upload</strong> or drag & drop photos here</p>
+              <p style="margin-top:.25rem;font-size:.78rem">PNG, JPG, WEBP supported</p>
+            </div>
+          </div>
+          <div class="admin-card">
+            <h3>Gallery Photos</h3>
+            <div class="gallery-admin-grid" id="galleryAdminGrid"></div>
+          </div>
+        </div>
+
+      </div><!-- /admin-content -->
+    </div><!-- /admin-main -->
+  </div><!-- /adminDashboard -->
+
+</div><!-- /admin-page -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════
+   DATA STORE (localStorage-backed)
+══════════════════════════════════════ */
+const STORAGE_KEY='ppcc_data';
+function getData(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||defaultData()}
+  catch{return defaultData()}
+}
+function saveData(d){localStorage.setItem(STORAGE_KEY,JSON.stringify(d))}
+
+function defaultData(){
+  const today=new Date();
+  const m=today.getMonth(),y=today.getFullYear();
+  function fmtDate(d){return d.toISOString().split('T')[0]}
+  return {
+    carousel:[
+      {id:1,tag:'Welcome to PPCC',title:'You Are Welcome Here',sub:'Join our family every Sunday as we worship, pray, and grow together in the love of Christ.',btn:'Join Us This Sunday',bg:'linear-gradient(135deg,#1A1208 0%,#3D2E10 100%)',emoji:'⛪'},
+      {id:2,tag:'Feeding Program',title:'Serving With Love',sub:'Our feeding ministry reaches out to children and families in need — sharing bread and the Bread of Life.',btn:'Learn More',bg:'linear-gradient(135deg,#2D6A4F 0%,#1A3D2F 100%)',emoji:'🍞'},
+      {id:3,tag:'Community & Fellowship',title:'One Family in Christ',sub:'PPCC is more than a church — we are a community bound by faith, hope, and love for one another.',btn:'Get Involved',bg:'linear-gradient(135deg,#8B6318 0%,#1A1208 100%)',emoji:'🤝'},
+    ],
+    service:{
+      title:'Sunday Morning Worship',
+      time:'8:00 AM & 10:00 AM',
+      date:'Every Sunday',
+      location:'PPCC Main Sanctuary',
+      address:'Pao-pao, Masbate, Philippines',
+      speaker:'Pastor',
+      topic:'Walking by Faith, Not by Sight',
+    },
+    announcements:[
+      {id:1,title:'Special Prayer Night',body:'Join us this Friday at 7PM for a special night of prayer and worship.',date:fmtDate(new Date(y,m,today.getDate()+3)),priority:'Important'},
+      {id:2,title:'Youth Camp Registration',body:'Registration for Youth Camp is now open! See Pastor for details.',date:fmtDate(new Date(y,m,today.getDate()+7)),priority:'Normal'},
+    ],
+    events:[
+      {id:1,name:'Sunday Worship Service',type:'worship',date:fmtDate(new Date(y,m,today.getDate()+(7-today.getDay()))),time:'08:00',location:'PPCC Sanctuary',desc:'Weekly morning worship service'},
+      {id:2,name:'Feeding Program',type:'outreach',date:fmtDate(new Date(y,m,today.getDate()+5)),time:'09:00',location:'Pao-pao Community Area',desc:'Monthly feeding program for children and families'},
+      {id:3,name:'Cell Group Night',type:'community',date:fmtDate(new Date(y,m,today.getDate()+3)),time:'19:00',location:'Church Hall',desc:'Weekly small group fellowship and Bible study'},
+      {id:4,name:'Youth Fellowship',type:'community',date:fmtDate(new Date(y,m,today.getDate()+10)),time:'15:00',location:'PPCC Youth Room',desc:'Monthly youth gathering with worship and activities'},
+    ],
+    gallery:[
+      {id:1,caption:'Sunday Worship Together',category:'worship',emoji:'🙏',color:'#2D6A4F'},
+      {id:2,caption:'Feeding Program — Blessing Children',category:'feeding',emoji:'🍞',color:'#C9942A'},
+      {id:3,caption:'Youth Group Fellowship',category:'youth',emoji:'✨',color:'#4A4EBA'},
+      {id:4,caption:'Community Outreach Day',category:'feeding',emoji:'❤️',color:'#C0392B'},
+      {id:5,caption:'Praise & Worship Night',category:'worship',emoji:'🎵',color:'#8B6318'},
+      {id:6,caption:'Church Anniversary Celebration',category:'fellowship',emoji:'🎉',color:'#3D2E10'},
+      {id:7,caption:'Morning Prayer Circle',category:'worship',emoji:'🕊️',color:'#1A3D2F'},
+      {id:8,caption:'Kids Sunday School',category:'fellowship',emoji:'📖',color:'#6B5530'},
+    ],
+    activity:[],
+    nextId:100,
+  }
+}
+function newId(){const d=getData();d.nextId=(d.nextId||100)+1;saveData(d);return d.nextId}
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function showPublic(){showPage('public-page');renderPublic()}
+function showAdminLogin(){showPage('admin-page');document.getElementById('adminLogin').classList.remove('hidden');document.getElementById('adminDashboard').classList.add('hidden')}
+function smoothScroll(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
+
+/* ══════════════════════════════════════
+   CAROUSEL
+══════════════════════════════════════ */
+let carouselIdx=0,carouselTimer;
+function renderCarousel(){
+  const d=getData();
+  const track=document.getElementById('carouselTrack');
+  const dots=document.getElementById('carouselDots');
+  if(!track)return;
+  track.innerHTML=d.carousel.map(s=>`
+    <div class="carousel-slide">
+      <div class="slide-bg" style="background:${s.bg||'#1A1208'}"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content" style="display:flex;flex-direction:column;align-items:flex-start">
+        <div style="font-size:5rem;margin-bottom:1rem;opacity:.2;position:absolute;right:10%;bottom:15%">${s.emoji||'⛪'}</div>
+        <span class="slide-tag">${s.tag||'PPCC'}</span>
+        <h1>${s.title||''}</h1>
+        <p>${s.sub||''}</p>
+        <a class="slide-cta" href="#" onclick="smoothScroll('sunday');return false">${s.btn||'Learn More'}</a>
+      </div>
+    </div>
+  `).join('');
+  dots.innerHTML=d.carousel.map((_,i)=>`<button class="carousel-dot${i===carouselIdx?' active':''}" onclick="goCarousel(${i})"></button>`).join('');
+  updateCarousel();
+  startCarouselTimer();
+}
+function updateCarousel(){
+  const d=getData();
+  const track=document.getElementById('carouselTrack');
+  if(!track)return;
+  track.style.transform=`translateX(-${carouselIdx*100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===carouselIdx));
+}
+function carouselMove(dir){const d=getData();carouselIdx=(carouselIdx+dir+d.carousel.length)%d.carousel.length;updateCarousel();resetCarouselTimer()}
+function goCarousel(i){carouselIdx=i;updateCarousel();resetCarouselTimer()}
+function startCarouselTimer(){clearInterval(carouselTimer);carouselTimer=setInterval(()=>carouselMove(1),5000)}
+function resetCarouselTimer(){clearInterval(carouselTimer);startCarouselTimer()}
+
+/* ══════════════════════════════════════
+   SERVICE SECTION
+══════════════════════════════════════ */
+function renderService(){
+  const d=getData();const s=d.service;
+  const card=document.getElementById('serviceCard');
+  if(card)card.innerHTML=`
+    <div class="service-card">
+      <div class="service-date-badge">📅 ${s.date||'Every Sunday'}</div>
+      <h3>${s.title||'Sunday Morning Worship'}</h3>
+      <p>🕐 ${s.time||'8:00 AM & 10:00 AM'}</p>
+      <p>👤 ${s.speaker||'Our Pastor'}</p>
+      <p style="margin-top:.75rem;font-style:italic;color:rgba(255,255,255,.7)">"${s.topic||'A message from the Word'}"</p>
+    </div>`;
+  const tEl=document.getElementById('svcTime');
+  const lEl=document.getElementById('svcLocation');
+  const aEl=document.getElementById('svcAddress');
+  if(tEl)tEl.textContent=s.time||'8:00 AM & 10:00 AM';
+  if(lEl)lEl.textContent=s.location||'PPCC Main Sanctuary';
+  if(aEl)aEl.textContent=s.address||'Pao-pao, Masbate, Philippines';
+  // Announcement banner — show most recent Important/Urgent
+  const ann=d.announcements.filter(a=>a.priority==='Important'||a.priority==='Urgent').sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+  const banner=document.getElementById('announcementBanner');
+  if(banner&&ann)banner.innerHTML=`<h4>📢 ${ann.title}</h4><p>${ann.body}</p>`;
+  else if(banner)banner.innerHTML='<h4>📢 All Are Welcome</h4><p>No special announcements this week. See you Sunday!</p>';
+}
+
+/* ══════════════════════════════════════
+   CALENDAR & EVENTS
+══════════════════════════════════════ */
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth(),calSelected=null;
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderCalendar(){
+  const d=getData();
+  const titleEl=document.getElementById('calTitle');
+  const daysEl=document.getElementById('calDays');
+  if(!titleEl||!daysEl)return;
+  titleEl.textContent=`${MONTHS[calMonth]} ${calYear}`;
+  const first=new Date(calYear,calMonth,1).getDay();
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+  const eventDays=new Set(d.events.filter(e=>{const ed=new Date(e.date);return ed.getFullYear()===calYear&&ed.getMonth()===calMonth}).map(e=>new Date(e.date).getDate()));
+  let html='';
+  for(let i=0;i<first;i++)html+=`<div class="cal-day other-month"></div>`;
+  for(let i=1;i<=days;i++){
+    const isToday=today.getDate()===i&&today.getMonth()===calMonth&&today.getFullYear()===calYear;
+    const hasEvent=eventDays.has(i);
+    const isSel=calSelected===i;
+    html+=`<div class="cal-day${isToday?' today':''}${hasEvent?' has-event':''}${isSel?' selected':''}" onclick="selectCalDay(${i})">${i}</div>`;
+  }
+  daysEl.innerHTML=html;
+  renderEventsList();
+}
+function selectCalDay(day){calSelected=day;renderCalendar()}
+function calMove(dir){
+  calMonth+=dir;
+  if(calMonth<0){calMonth=11;calYear--}
+  if(calMonth>11){calMonth=0;calYear++}
+  calSelected=null;
+  renderCalendar();
+}
+function renderEventsList(){
+  const d=getData();
+  const el=document.getElementById('eventsList');
+  if(!el)return;
+  let events=d.events.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  if(calSelected){events=events.filter(e=>{const ed=new Date(e.date);return ed.getFullYear()===calYear&&ed.getMonth()===calMonth&&ed.getDate()===calSelected})}
+  else{const now=new Date();events=events.filter(e=>new Date(e.date)>=new Date(now.getFullYear(),now.getMonth(),now.getDate())).slice(0,5)}
+  if(!events.length){el.innerHTML='<div class="no-events">No events for this date.</div>';return}
+  const typeLabel={worship:'Worship',community:'Community',outreach:'Outreach'};
+  el.innerHTML=events.map(e=>{
+    const dt=new Date(e.date+'T00:00');
+    const day=dt.getDate();
+    const mon=MONTHS[dt.getMonth()].slice(0,3).toUpperCase();
+    const timeStr=e.time?formatTime(e.time):'TBD';
+    return `<div class="event-card">
+      <div class="event-date-block"><div class="eday">${day}</div><div class="emon">${mon}</div></div>
+      <div class="event-info">
+        <h4>${e.name}</h4>
+        <div class="event-meta">
+          <span>🕐 ${timeStr}</span>
+          <span>📍 ${e.location||''}</span>
+        </div>
+        <div style="margin-top:.4rem"><span class="event-type-badge badge-${e.type||'worship'}">${typeLabel[e.type]||'Event'}</span></div>
+      </div>
+    </div>`}).join('');
+}
+function formatTime(t){if(!t)return'TBD';const[h,m]=t.split(':');const hr=parseInt(h);return`${hr%12||12}:${m} ${hr<12?'AM':'PM'}`}
+
+/* ══════════════════════════════════════
+   GALLERY
+══════════════════════════════════════ */
+let activeGalTab='all';
+function renderGallery(){
+  const d=getData();
+  const tabs=document.getElementById('galleryTabs');
+  const grid=document.getElementById('galleryGrid');
+  if(!tabs||!grid)return;
+  const cats=['all','worship','feeding','fellowship','youth'];
+  const catNames={all:'All Moments',worship:'Worship',feeding:'Feeding Program',fellowship:'Fellowship',youth:'Youth'};
+  tabs.innerHTML=cats.map(c=>`<button class="gtab${activeGalTab===c?' active':''}" onclick="setGalTab('${c}')">${catNames[c]}</button>`).join('');
+  const items=activeGalTab==='all'?d.gallery:d.gallery.filter(g=>g.category===activeGalTab);
+  grid.innerHTML=items.map(g=>`
+    <div class="gallery-item" onclick="openLightbox('${g.emoji}','${g.caption}')">
+      ${g.dataUrl?`<img src="${g.dataUrl}" alt="${g.caption||''}"/>`:`
+      <div class="gallery-placeholder" style="background:${g.color}22">
+        <div class="gp-icon" style="color:${g.color}">${g.emoji||'📷'}</div>
+        <span>${g.caption||''}</span>
+      </div>`}
+      <div class="gallery-overlay">View Photo</div>
+    </div>`).join('');
+}
+function setGalTab(cat){activeGalTab=cat;renderGallery()}
+function openLightbox(emoji,caption){
+  document.getElementById('lightbox').classList.remove('hidden');
+  const img=document.getElementById('lightboxImg');
+  // If it's a real URL use it, else show placeholder
+  img.src=emoji.startsWith('data:')?emoji:`https://via.placeholder.com/800x500/1A1208/C9942A?text=${encodeURIComponent(caption||'PPCC')}`;
+  img.alt=caption||'Gallery';
+}
+function closeLightbox(){document.getElementById('lightbox').classList.add('hidden')}
+
+/* ══════════════════════════════════════
+   RENDER ALL PUBLIC
+══════════════════════════════════════ */
+function renderPublic(){
+  renderCarousel();
+  renderService();
+  renderCalendar();
+  renderGallery();
+}
+
+/* ══════════════════════════════════════
+   ADMIN AUTH
+══════════════════════════════════════ */
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  if(u==='admin'&&p==='yuki123'){
+    document.getElementById('adminLogin').classList.add('hidden');
+    document.getElementById('adminDashboard').classList.remove('hidden');
+    renderAdmin();
+  }else{
+    document.getElementById('loginErr').style.display='block';
+    setTimeout(()=>document.getElementById('loginErr').style.display='none',3000);
+  }
+}
+function adminLogout(){document.getElementById('adminLogin').classList.remove('hidden');document.getElementById('adminDashboard').classList.add('hidden')}
+
+/* ══════════════════════════════════════
+   ADMIN SECTIONS
+══════════════════════════════════════ */
+function showAdminSection(id){
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.admin-nav a').forEach(a=>a.classList.remove('active'));
+  const navId='nav'+id.replace('a','');
+  const navEl=document.getElementById(navId);
+  if(navEl)navEl.classList.add('active');
+  const titles={aDashboard:'Dashboard',aCarousel:'Hero Carousel',aService:'Sunday Service',aAnnouncements:'Announcements',aEvents:'Events',aGallery:'Gallery'};
+  document.getElementById('adminPageTitle').textContent=titles[id]||'Admin';
+  if(id==='aDashboard')renderDashboard();
+  if(id==='aCarousel')renderCarouselAdmin();
+  if(id==='aService')populateServiceForm();
+  if(id==='aAnnouncements')renderAnnTable();
+  if(id==='aEvents')renderEventsTable();
+  if(id==='aGallery')renderGalleryAdmin();
+}
+
+/* ── DASHBOARD ── */
+function renderDashboard(){
+  const d=getData();
+  document.getElementById('statCards').innerHTML=`
+    <div class="stat-card"><div class="sv">${d.carousel.length}</div><div class="sl">Carousel Slides</div></div>
+    <div class="stat-card"><div class="sv">${d.announcements.length}</div><div class="sl">Announcements</div></div>
+    <div class="stat-card"><div class="sv">${d.events.length}</div><div class="sl">Upcoming Events</div></div>
+    <div class="stat-card"><div class="sv">${d.gallery.length}</div><div class="sl">Gallery Photos</div></div>`;
+  const acts=d.activity||[];
+  document.getElementById('recentActivity').innerHTML=acts.length?acts.slice(-8).reverse().map(a=>`<div style="padding:.5rem 0;border-bottom:1px solid var(--cream2);display:flex;justify-content:space-between"><span>${a.msg}</span><span style="font-size:.78rem;color:var(--ink3)">${a.time}</span></div>`).join(''):'<p style="padding:1rem 0">No recent activity yet.</p>';
+}
+function logActivity(msg){const d=getData();d.activity=d.activity||[];d.activity.push({msg,time:new Date().toLocaleTimeString()});saveData(d)}
+
+/* ── CAROUSEL ADMIN ── */
+function addCarouselSlide(){
+  const tag=document.getElementById('cTag').value.trim();
+  const title=document.getElementById('cTitle').value.trim();
+  const sub=document.getElementById('cSub').value.trim();
+  const btn=document.getElementById('cBtn').value.trim();
+  const bg=document.getElementById('cBg').value.trim()||'linear-gradient(135deg,#1A1208,#3D2E10)';
+  const emoji=document.getElementById('cEmoji').value.trim()||'⛪';
+  if(!title){showToast('Please enter a headline','error');return}
+  const d=getData();
+  d.carousel.push({id:newId(),tag,title,sub,btn,bg,emoji});
+  saveData(d);logActivity('Added carousel slide: '+title);
+  showToast('Slide added!');renderCarouselAdmin();renderCarousel();
+  ['cTag','cTitle','cSub','cBtn','cBg','cEmoji'].forEach(id=>document.getElementById(id).value='');
+}
+function removeCarouselSlide(id){const d=getData();d.carousel=d.carousel.filter(s=>s.id!==id);saveData(d);logActivity('Removed carousel slide');renderCarouselAdmin();renderCarousel()}
+function renderCarouselAdmin(){
+  const d=getData();
+  document.getElementById('carouselAdminPreview').innerHTML=d.carousel.map(s=>`
+    <div class="carousel-preview-item" style="background:${s.bg}">
+      <div class="cp-overlay">${s.emoji||'⛪'}</div>
+      <div class="cp-info"><p><strong style="color:#fff">${s.title}</strong></p><p style="opacity:.7">${s.tag||''}</p></div>
+      <button class="del-btn" onclick="removeCarouselSlide(${s.id})">✕</button>
+    </div>`).join('')||'<p style="color:var(--ink3);font-size:.85rem">No slides yet.</p>';
+}
+
+/* ── SERVICE ── */
+function populateServiceForm(){
+  const d=getData();const s=d.service;
+  document.getElementById('svcTitleIn').value=s.title||'';
+  document.getElementById('svcTimeIn').value=s.time||'';
+  document.getElementById('svcDateIn').value=s.date||'';
+  document.getElementById('svcLocIn').value=s.location||'';
+  document.getElementById('svcAddrIn').value=s.address||'';
+  document.getElementById('svcSpeakerIn').value=s.speaker||'';
+  document.getElementById('svcTopicIn').value=s.topic||'';
+}
+function saveService(){
+  const d=getData();
+  d.service={
+    title:document.getElementById('svcTitleIn').value,
+    time:document.getElementById('svcTimeIn').value,
+    date:document.getElementById('svcDateIn').value,
+    location:document.getElementById('svcLocIn').value,
+    address:document.getElementById('svcAddrIn').value,
+    speaker:document.getElementById('svcSpeakerIn').value,
+    topic:document.getElementById('svcTopicIn').value,
+  };
+  saveData(d);logActivity('Updated Sunday Service info');showToast('Service info saved!');renderService();
+}
+
+/* ── ANNOUNCEMENTS ── */
+function addAnnouncement(){
+  const title=document.getElementById('annTitle').value.trim();
+  const body=document.getElementById('annBody').value.trim();
+  const date=document.getElementById('annDate').value;
+  const priority=document.getElementById('annPriority').value;
+  if(!title){showToast('Please enter a title','error');return}
+  const d=getData();
+  d.announcements.push({id:newId(),title,body,date,priority});
+  saveData(d);logActivity('Posted announcement: '+title);showToast('Announcement posted!');
+  document.getElementById('annTitle').value='';document.getElementById('annBody').value='';document.getElementById('annDate').value='';
+  renderAnnTable();renderService();
+}
+function deleteAnnouncement(id){const d=getData();d.announcements=d.announcements.filter(a=>a.id!==id);saveData(d);logActivity('Deleted announcement');renderAnnTable();renderService();showToast('Deleted')}
+function renderAnnTable(){
+  const d=getData();
+  const priorityColors={Normal:'status-inactive',Important:'badge-worship',Urgent:'status-active'};
+  document.getElementById('annBody2').innerHTML=d.announcements.map(a=>`
+    <tr>
+      <td><strong>${a.title}</strong><br><small style="color:var(--ink3)">${a.body.slice(0,60)}${a.body.length>60?'...':''}</small></td>
+      <td>${a.date||'—'}</td>
+      <td><span class="badge-pill ${priorityColors[a.priority]||'status-inactive'}">${a.priority}</span></td>
+      <td><button class="btn-sm danger" onclick="deleteAnnouncement(${a.id})">✕ Delete</button></td>
+    </tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--ink3);padding:2rem">No announcements yet.</td></tr>';
+}
+
+/* ── EVENTS ── */
+function addEvent(){
+  const name=document.getElementById('evName').value.trim();
+  const type=document.getElementById('evType').value;
+  const date=document.getElementById('evDate').value;
+  const time=document.getElementById('evTime').value;
+  const location=document.getElementById('evLoc').value.trim();
+  const desc=document.getElementById('evDesc').value.trim();
+  if(!name||!date){showToast('Please enter event name and date','error');return}
+  const d=getData();
+  d.events.push({id:newId(),name,type,date,time,location,desc});
+  saveData(d);logActivity('Added event: '+name);showToast('Event added!');
+  ['evName','evDate','evTime','evLoc','evDesc'].forEach(id=>document.getElementById(id).value='');
+  renderEventsTable();renderCalendar();
+}
+function deleteEvent(id){const d=getData();d.events=d.events.filter(e=>e.id!==id);saveData(d);logActivity('Deleted event');renderEventsTable();renderCalendar();showToast('Deleted')}
+function renderEventsTable(){
+  const d=getData();
+  const typeLabel={worship:'Worship',community:'Community',outreach:'Outreach'};
+  const sorted=[...d.events].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  document.getElementById('eventsBody').innerHTML=sorted.map(e=>`
+    <tr>
+      <td><strong>${e.name}</strong><br><small style="color:var(--ink3)">${e.location||''}</small></td>
+      <td>${e.date||'—'}</td>
+      <td>${e.time?formatTime(e.time):'TBD'}</td>
+      <td><span class="event-type-badge badge-${e.type||'worship'}">${typeLabel[e.type]||e.type}</span></td>
+      <td><button class="btn-sm danger" onclick="deleteEvent(${e.id})">✕ Delete</button></td>
+    </tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--ink3);padding:2rem">No events yet.</td></tr>';
+}
+
+/* ── GALLERY ── */
+function handleUpload(event){
+  const files=Array.from(event.target.files);
+  const caption=document.getElementById('galCaption').value.trim()||'Church Moment';
+  const category=document.getElementById('galCategory').value;
+  const d=getData();
+  let count=0;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(e){
+      d.gallery.push({id:newId(),caption,category,dataUrl:e.target.result,emoji:'📸',color:'#1A1208'});
+      count++;
+      if(count===files.length){saveData(d);logActivity(`Uploaded ${count} photo(s)`);showToast(`${count} photo(s) uploaded!`);renderGalleryAdmin();renderGallery()}
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function deleteGalleryItem(id){const d=getData();d.gallery=d.gallery.filter(g=>g.id!==id);saveData(d);logActivity('Deleted gallery photo');renderGalleryAdmin();renderGallery();showToast('Deleted')}
+function renderGalleryAdmin(){
+  const d=getData();
+  document.getElementById('galleryAdminGrid').innerHTML=d.gallery.map(g=>`
+    <div class="gallery-admin-item">
+      ${g.dataUrl?`<img src="${g.dataUrl}" alt="${g.caption||''}"/>`:`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;font-size:2rem;color:${g.color}">${g.emoji||'📷'}<span style="font-size:.65rem;margin-top:.3rem;color:var(--ink3);text-align:center;padding:0 .25rem">${g.caption||''}</span></div>`}
+      <button class="del-btn" onclick="deleteGalleryItem(${g.id})">✕</button>
+    </div>`).join('')||'<p style="color:var(--ink3);font-size:.85rem;grid-column:1/-1">No photos yet.</p>';
+}
+
+/* ── RENDER ADMIN ── */
+function renderAdmin(){
+  renderDashboard();
+  renderCarouselAdmin();
+  renderAnnTable();
+  renderEventsTable();
+  renderGalleryAdmin();
+}
+
+/* ── TOAST ── */
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(type==='error'?' error':'');
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderPublic();
+  // Login on Enter key
+  document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+  document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+});
+</script>
+</body>
+</html>
